@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"io"
 	"os"
 )
@@ -14,4 +15,13 @@ func captureOutput(f func() error) (string, error) {
 	w.Close()
 	out, _ := io.ReadAll(r)
 	return string(out), err
+}
+
+func mockStdinTesting(stdin io.Reader) (string, error) {
+	reader := bufio.NewReader(stdin)
+	text, err := reader.ReadString('\n')
+	if err != nil {
+		return "", err
+	}
+	return string(text), err
 }
