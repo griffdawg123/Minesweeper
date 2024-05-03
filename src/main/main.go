@@ -17,7 +17,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println("Size: ", strconv.Itoa(size), "Num Mines: %v", strconv.Itoa(numMines))
+	fmt.Println("Size: ", strconv.Itoa(size), "Num Mines:", strconv.Itoa(numMines))
 	var mineCoords []*coords
 	mineCoords, err = getMineCoords(numMines, os.Stdin)
 	if err != nil {
