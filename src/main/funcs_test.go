@@ -156,47 +156,47 @@ func TestRevealAdjacent(t *testing.T) {
 }
 
 
-// func TestRevealNotAdjacent(t *testing.T) {
+func TestRevealNotAdjacent(t *testing.T) {
 
-//     var board [][]int
-//     var err error
-//     var size int = 5
-//     board, err = initGameBoard(size, size)
-//     assert.Nil(t, err)
+    var board [][]int
+    var err error
+    var size int = 5
+    board, err = initGameBoard(size, size)
+    assert.Nil(t, err)
 
-//     var mineCoords []*coords = []*coords{{0, 0}}
-//     newBoard, err := placeMines(mineCoords, board)
-//     assert.Nil(t, err)
+    var mineCoords []*coords = []*coords{{0, 0}}
+    newBoard, err := placeMines(mineCoords, board)
+    assert.Nil(t, err)
    
-//     var selectedCoords coords = coords{3, 3}
-//     var revealed [][]int
-//     revealed, err = revealSquare(newBoard, &selectedCoords)
+    var selectedCoords coords = coords{3, 3}
+    var revealed [][]int
+    revealed, err = revealSquare(newBoard, &selectedCoords)
+    assert.Nil(t, err)
+    var expectedBoard = [][]int{{2, 0, 0, 0, 0},{0, 0, 0, 0, 0},{0, 0, 0, 0, 0},{0, 0, 0, 0, 0},{0, 0, 0, 0, 0}}
+    for row := range revealed {
+        for col := range revealed[row] {
+            assert.Equal(t, expectedBoard[row][col], revealed[row][col])
+        }
+    } 
+}
 
-//     var expectedBoard = [][]int{{2, 0, 0, 0, 0},{0, 0, 0, 0, 0},{0, 0, 0, 0, 0},{0, 0, 0, 0, 0},{0, 0, 0, 0, 0}}
-//     for row := range revealed {
-//         for col := range revealed[row] {
-//             assert.Equal(t, expectedBoard[row][col], revealed[row][col])
-//         }
-//     } 
-// }
+func TestRevealMine(t *testing.T) {
+    var board [][]int
+    var err error
+    var size int = 5
+    board, err = initGameBoard(size, size)
+    assert.Nil(t, err)
 
-// func TestRevealMine(t *testing.T) {
-//     var board [][]int
-//     var err error
-//     var size int = 5
-//     board, err = initGameBoard(size, size)
-//     assert.Nil(t, err)
-
-//     var mineCoords []*coords = []*coords{{0, 0}}
-//     newBoard, err := placeMines(mineCoords, board)
-//     assert.Nil(t, err)
+    var mineCoords []*coords = []*coords{{0, 0}}
+    newBoard, err := placeMines(mineCoords, board)
+    assert.Nil(t, err)
    
-//     var selectedCoords coords = coords{0, 0}
-//     _, err = revealSquare(newBoard, &selectedCoords)
-//     if assert.Error(t, err) {
-//         assert.Equal(t, &GameOver{}, err)
-//     }
-// }
+    var selectedCoords coords = coords{0, 0}
+    _, err = revealSquare(newBoard, &selectedCoords)
+    if assert.Error(t, err) {
+        assert.Equal(t, &GameOver{}, err)
+    }
+}
 
 func TestCoordsSort(t *testing.T) {
     var toSort []*coords = []*coords{{1, 1}, {3, 2}, {3, 3}, {2, 2}, {4, 4}}
@@ -207,18 +207,18 @@ func TestCoordsSort(t *testing.T) {
     }
 }
 
-// func TestGetAdjacentMiddle(t *testing.T) {
-//     var board [][]int
-//     var err error
-//     var size int = 5
-//     board, err = initGameBoard(size, size)
-//     assert.Nil(t, err)
+func TestGetAdjacentMiddle(t *testing.T) {
+    var board [][]int
+    var err error
+    var size int = 5
+    board, err = initGameBoard(size, size)
+    assert.Nil(t, err)
     
-//     var selectedCoords coords = coords{3, 3}
-//     adjacent, err := getAdjacent(board, &selectedCoords)
-//     sort.Sort(CoordsSort(adjacent))
-//     assert.Equal(t, []*coords{{2, 2}, {2, 3}, {2, 4}, {3, 2}, {3, 4}, {4, 2}, {4, 3}, {4, 4}}, adjacent)
-// }
+    var selectedCoords coords = coords{3, 3}
+    adjacent, err := getAdjacent(board, &selectedCoords)
+    sort.Sort(CoordsSort(adjacent))
+    assert.Equal(t, []*coords{{2, 2}, {2, 3}, {2, 4}, {3, 2}, {3, 4}, {4, 2}, {4, 3}, {4, 4}}, adjacent)
+}
 
 //func TestGetAdjacentEdge(t *testing.T) {
 //

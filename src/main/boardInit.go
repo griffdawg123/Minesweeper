@@ -3,12 +3,12 @@ package main
 import "flag"
 import "errors"
 
-func initFlags(height int, width int, numMines int) (int, int, int) {
-	flag.IntVar(&height, "size", 10, "Height of the grid")
-	flag.IntVar(&width, "size", 10, "Width of the grid")
-	flag.IntVar(&numMines, "mines", 10, "Number of mines in the game")
+func initFlags(rows int, cols int, numMines int) (int, int, int) {
+	flag.IntVar(&rows, "rows", 5, "Height of the grid")
+	flag.IntVar(&cols, "cols", 5, "Width of the grid")
+	flag.IntVar(&numMines, "mines", 1, "Number of mines in the game")
 	flag.Parse()
-	return height, width, numMines
+	return rows, cols, numMines
 }
 
 func initGameBoard(height int, width int) ([][]int, error) {
@@ -41,6 +41,22 @@ func placeMines(mines []*coords, board [][]int) ([][]int, error) {
     return board, nil
 }
 
+func max(a, b int) (int) {
+    if a > b {
+        return a
+    } else {
+        return b
+    }
+}
+
+func min(a, b int) (int) {
+    if a < b {
+        return a
+    } else {
+        return b
+    }
+}
+
 func adjacentMines(board [][]int, square *coords) (int, error) {
     if square.row > len(board) || square.row < 0 {
         return -1, errors.New("Row out of bounds")
@@ -56,7 +72,5 @@ func adjacentMines(board [][]int, square *coords) (int, error) {
             }
         }
     }
-
     return count, nil
 }
-

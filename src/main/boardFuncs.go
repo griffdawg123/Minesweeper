@@ -1,5 +1,20 @@
 package main
 
+import (
+	"errors"
+	"fmt"
+)
+
+func containsCoord(coordsList []*coords, coord *coords) (bool) {
+    for i := range coordsList {
+        c := coordsList[i]
+        if c.row == coord.row && c.col == coord.col {
+            return true
+        }
+    }
+    return false
+}
+
 func revealSquare(board [][]int, square *coords) ([][]int, error) {
     // DFS
     // if mine - game over
@@ -12,28 +27,65 @@ func revealSquare(board [][]int, square *coords) ([][]int, error) {
 
     var toCheck []*coords = make([]*coords, 0) 
     toCheck = append(toCheck, square)
+    // loop := 0
     for len(toCheck) > 0 {
+        fmt.Println("To Check:")
+        for i := range toCheck {
+            fmt.Printf("%v, %v\n", toCheck[i].row, toCheck[i].col)
+        }
         curr := toCheck[0]
         toCheck = toCheck[1:] 
         numAdjacent, err := adjacentMines(board, curr)
+        fmt.Printf("%v\n", numAdjacent)
         if err != nil{
             return board, err
         }
-        if numAdjacent > 0 {
-            board[curr.col][curr.row] = VISIBLE_SAFE
-        } else if numAdjacent == 0 {
+        board[curr.col][curr.row] = VISIBLE_SAFE
+        if numAdjacent == 0 {
             newSquares, err := getAdjacent(board, curr)
+
+            for i := range newSquares {
+                fmt.Printf("%v, %v\n", newSquares[i].row, newSquares[i].col)
+            }
             if err != nil {
                 return board, err
             }
-            toCheck = append(toCheck, newSquares...)
+            for i := range newSquares {
+                newSquare := newSquares[i]
+                if containsCoord(toCheck,newSquare)|| board[newSquare.row][newSquare.col] == VISIBLE_SAFE{
+                    continue
+                }
+                toCheck = append(toCheck, newSquares[i])
+            }
         }
+        // if loop > 2 {
+        //     break
+        // }
+        // loop += 1
     }
 
     return board, nil 
 }
 
 func getAdjacent(board [][]int, square *coords) ([]*coords, error) {
-    return []*coords{}, nil
+
+    var adjacent []*coords = []*coords{}
+
+    if square.row < 0 || square.row >= len(board) {
+        return adjacent, errors.New("Row value out of bounds") 
+    } else if square.col < 0 || square.col >= len(board[0]) {
+        return adjacent, errors.New("Col value out of bounds")
+    }
+
+    for i := max(0, square.row - 1); i < min(len(board), square.row + 2); i++ {
+        for j := max(0, square.col - 1); j < min(len(board[0]), square.col + 2); j++ {
+            if i == square.row && j == square.col {
+                continue
+            }
+            adjacent = append(adjacent, &coords{i, j})
+        }
+    }
+
+    return adjacent, nil
 }
 

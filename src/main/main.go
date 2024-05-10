@@ -33,5 +33,10 @@ func main() {
     if err != nil {
         panic(err)
     }
+    board, err = revealSquare(board, &coords{3,3})
+	err = debug_print_gameboard(board)
+    if err != nil {
+        panic(err)
+    }
 }
 
