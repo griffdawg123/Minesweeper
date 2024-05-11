@@ -27,7 +27,7 @@ func revealSquare(board [][]int, square *coords) ([][]int, error) {
 
     var toCheck []*coords = make([]*coords, 0) 
     toCheck = append(toCheck, square)
-    // loop := 0
+    //loop := 0
     for len(toCheck) > 0 {
         fmt.Println("To Check:")
         for i := range toCheck {
