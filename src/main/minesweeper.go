@@ -5,6 +5,8 @@ const MAXBOARDSIZE = 20
 const VISIBLE_SAFE = 0
 const HIDDEN_SAFE = 1
 const HIDDEN_MINE = 2
+const MINEFLAG = 3
+const WRONGFLAG = 4
 
 type coords struct {
 	row, col int

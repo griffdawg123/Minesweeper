@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"strconv"
 )
 
 func containsCoord(coordsList []*coords, coord *coords) (bool) {
@@ -27,26 +28,23 @@ func revealSquare(board [][]int, square *coords) ([][]int, error) {
 
     var toCheck []*coords = make([]*coords, 0) 
     toCheck = append(toCheck, square)
-    //loop := 0
+    // loop := 0
     for len(toCheck) > 0 {
-        fmt.Println("To Check:")
-        for i := range toCheck {
-            fmt.Printf("%v, %v\n", toCheck[i].row, toCheck[i].col)
-        }
         curr := toCheck[0]
         toCheck = toCheck[1:] 
         numAdjacent, err := adjacentMines(board, curr)
-        fmt.Printf("%v\n", numAdjacent)
         if err != nil{
             return board, err
         }
-        board[curr.col][curr.row] = VISIBLE_SAFE
+        fmt.Println("Curr: ", strconv.Itoa(curr.row), strconv.Itoa(curr.col))
+        fmt.Println("To Check:")
+        for i := range toCheck {
+            fmt.Println(strconv.Itoa(toCheck[i].row), strconv.Itoa(toCheck[i].col))
+        }
+        board[curr.row][curr.col] = VISIBLE_SAFE
         if numAdjacent == 0 {
             newSquares, err := getAdjacent(board, curr)
 
-            for i := range newSquares {
-                fmt.Printf("%v, %v\n", newSquares[i].row, newSquares[i].col)
-            }
             if err != nil {
                 return board, err
             }
@@ -58,12 +56,11 @@ func revealSquare(board [][]int, square *coords) ([][]int, error) {
                 toCheck = append(toCheck, newSquares[i])
             }
         }
-        // if loop > 2 {
+        // if loop == 10 {
         //     break
         // }
         // loop += 1
     }
-
     return board, nil 
 }
 
@@ -89,3 +86,15 @@ func getAdjacent(board [][]int, square *coords) ([]*coords, error) {
     return adjacent, nil
 }
 
+func gameWon(board [][]int) (bool) {
+    mine_count := 0  
+
+    for i := range board {
+        for j := range board[i] {
+            if board[i][j] == HIDDEN_MINE {
+                mine_count += 1
+            }
+        }
+    }
+    return mine_count == 0
+}

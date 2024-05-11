@@ -26,7 +26,7 @@ func initGameBoard(height int, width int) ([][]int, error) {
 	}
 	return gameboard, nil
 }
-func placeMines(mines []*coords, board [][]int) ([][]int, error) {
+func placeMines(mines []*coords, board [][]int) ([][]int) {
     var height int = len(board)
     var width int = len(board[0])
 
@@ -38,7 +38,7 @@ func placeMines(mines []*coords, board [][]int) ([][]int, error) {
             board[row][col] = HIDDEN_MINE
         }
     }
-    return board, nil
+    return board
 }
 
 func max(a, b int) (int) {
